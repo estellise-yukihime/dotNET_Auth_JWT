@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using System.Text;
 using main.Database.Model.Identity;
 using main.Database.Storage;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -26,15 +28,28 @@ builder.Services.AddIdentityCore<MainUser>(x =>
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(x =>
     {
+        var jwtSection = builder.Configuration.GetSection("JWT");
+        var jwtKey = jwtSection["Key"];
+        var jwtIssuer = jwtSection["Issuer"];
+        var jwtAudience = jwtSection["Audience"];
+        
         x.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidIssuer = "",
-            ValidAudience = "",
-            IssuerSigningKey = null,
+            ValidIssuer = jwtIssuer,
+            ValidAudience = jwtAudience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey!)),
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true
+        };
+
+        x.Events = new JwtBearerEvents
+        {
+            // To check what credentials the user has
+            // claims
+            // roles
+            OnTokenValidated = _ => Task.CompletedTask
         };
     });
 
@@ -50,9 +65,14 @@ builder.Services.AddAuthorization(x =>
         p.RequireRole("User");
     });
     
+    x.AddPolicy("RequireAdminOrUser", p =>
+    {
+        p.RequireRole("Admin", "User");
+    });
+    
     x.AddPolicy("HasClaimEmailAddress", p =>
     {
-        p.RequireClaim("EmailAddress");
+        p.RequireClaim(ClaimTypes.Email);
     });
 });
 

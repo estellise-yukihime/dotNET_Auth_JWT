@@ -85,15 +85,15 @@ public class AccountController : ControllerBase
         {
             Email = user.Email!,
             Name = user.UserName!,
-            Password = ""
+            Password = user.PasswordHash!
         };
 
         return Ok(mainUserModel);
     }
 
-    [Authorize(Policy = "RequireAdmin,RequireUser")]
+    [Authorize(Policy = "RequireAdminOrUser")]
     [Authorize(Policy = "HasClaimEmailAddress")]
-    [HttpPost("update")]
+    [HttpPut("update")]
     public async Task<IActionResult> UpdateName([FromBody] string name)
     {
         var email = User.FindFirstValue(ClaimTypes.Email) ?? "";
@@ -102,6 +102,11 @@ public class AccountController : ControllerBase
         if (user == null)
         {
             return BadRequest();
+        }
+
+        if (user.UserName == name)
+        {
+            return NoContent();
         }
 
         user.UserName = name;

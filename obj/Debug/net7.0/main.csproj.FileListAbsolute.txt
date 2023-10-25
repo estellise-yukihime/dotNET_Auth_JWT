@@ -81,3 +81,4 @@
 /Users/carlo/Projects/csharp/dotNET/Auth_JWT/main/obj/Debug/net7.0/main.pdb
 /Users/carlo/Projects/csharp/dotNET/Auth_JWT/main/obj/Debug/net7.0/main.genruntimeconfig.cache
 /Users/carlo/Projects/csharp/dotNET/Auth_JWT/main/obj/Debug/net7.0/ref/main.dll
+/Users/carlo/Projects/csharp/dotNET/Auth_JWT/main/bin/Debug/net7.0/Newtonsoft.Json.dll
