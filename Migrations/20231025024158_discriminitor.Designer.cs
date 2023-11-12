@@ -6,12 +6,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using main.Database.Storage;
+using main.Database.Storage.MainUser.Context;
 
 #nullable disable
 
 namespace main.Migrations
 {
-    [DbContext(typeof(MainUserIdentityDbContext))]
+    [DbContext(typeof(MainUserDbContext))]
     [Migration("20231025024158_discriminitor")]
     partial class discriminitor
     {

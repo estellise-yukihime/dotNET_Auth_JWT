@@ -1,7 +1,8 @@
 using System.Security.Claims;
 using System.Text;
-using main.Database.Model.Identity;
 using main.Database.Storage;
+using main.Database.Storage.MainUser.Context;
+using main.Database.Storage.MainUser.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connection = builder.Configuration.GetConnectionString("SQLServerConnection");
 
-builder.Services.AddDbContext<MainUserIdentityDbContext>(x => x.UseSqlServer(connection));
+builder.Services.AddIdentity<MainUser, IdentityRole>()
+    .AddEntityFrameworkStores<MainUserDbContext>();
 // add more database context
 
 builder.Services.AddIdentityCore<MainUser>(x =>
@@ -21,7 +23,7 @@ builder.Services.AddIdentityCore<MainUser>(x =>
         x.SignIn.RequireConfirmedPhoneNumber = false;
     })
     .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<MainUserIdentityDbContext>()
+    .AddEntityFrameworkStores<MainUserDbContext>()
     .AddDefaultTokenProviders();
 
 // Add services to the container.

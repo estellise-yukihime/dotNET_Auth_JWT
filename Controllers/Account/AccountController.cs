@@ -1,6 +1,6 @@
 using System.Security.Claims;
 using main.Data.Model.Account;
-using main.Database.Model.Identity;
+using main.Database.Storage.MainUser.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

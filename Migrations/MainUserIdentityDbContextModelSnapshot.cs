@@ -5,12 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using main.Database.Storage;
+using main.Database.Storage.MainUser.Context;
 
 #nullable disable
 
 namespace main.Migrations
 {
-    [DbContext(typeof(MainUserIdentityDbContext))]
+    [DbContext(typeof(MainUserDbContext))]
     partial class MainUserIdentityDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
